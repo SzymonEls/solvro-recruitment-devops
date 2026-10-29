@@ -3,7 +3,7 @@ services:
     container_name: web-solvro-docs
     build:
       context: https://github.com/Solvro/web-solvro-docs.git#main
-      dockerfile_inline:
+      dockerfile_inline: |
         FROM node:lts-slim AS build-node
         WORKDIR /app
         COPY . .
