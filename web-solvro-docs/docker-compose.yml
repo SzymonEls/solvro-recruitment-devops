@@ -1,0 +1,20 @@
+services:
+  docs:
+    container_name: web-solvro-docs
+    build:
+      context: https://github.com/Solvro/web-solvro-docs.git#main
+      dockerfile_inline:
+        FROM node:lts-slim AS build-node
+        WORKDIR /app
+        COPY . .
+        RUN npm pkg set allowScripts.sharp=true --json
+        RUN npm ci
+        RUN npm run build
+        FROM nginx:alpine-slim
+        COPY --from=build-node /app/dist /usr/share/nginx/html
+    restart: unless-stopped
+    networks:
+      - reverse_proxy
+networks:
+  reverse_proxy:
+    external: true

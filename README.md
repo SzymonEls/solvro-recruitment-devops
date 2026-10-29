@@ -1,0 +1,7 @@
+# Zadanie rekrutacyjne Devops - sprawozdanie z wykonania
+
+1. Wybór sposobu postawienia aplikacji: ponieważ posiadam własny serwer VPS oraz adres IPv4 na których hostuję różne aplikacje z których korzystam na codzień wybieram taką metodę postawienia web-solvro-docs. Korzystam tam z Docker Compose, więc wykorzystam go do postawienia tego systemu.
+2. Napotkany problem: w swoich projektach do klonowania kodu z repozytorium automatycznie przez Dockera używałem w Docker Compose linku do repozytorium jako build context, ale wtedy Docker szuka Dockerfile w plikach repozytorium (nie mogę napisać własnego). Rozwiązanie: `dockerfile_inline`, okazuje się, że zawartość Dockerfile można wpisać bezpośrednio w `docker-compose.yml` korzystając z tego pola.
+3. Do zmiany `allowScripts.sharp` korzystam z wbudowanej w npm komendy `npm pkg set`.
+4. Do hostowania skompilowanej strony z katalogu `dist` wykorzystuję nginx. A dokładniej jego oficjalny, najlżejszy obraz `alpine-slim`.
+5. Dodaję ten kontener także do wspólnej sieci z kontenerem nginx rozdzielający ruch przychodzący do mojego serwera na podstawie subdomen do odpowiednich kontenerów. Nie ma potrzeby ustawiania `ports`, ponieważ łączenie z kontenerem odbywa się za pośrednictwem kontenera rozdzielającego, a on widzi `web-solvro-docs` po nazwie.
